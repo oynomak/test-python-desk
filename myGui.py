@@ -1,3 +1,6 @@
+# @author Kamonyo
+
+# Project to test the TKINTER GUI functionality
 from tkinter import *
 
 # instantiation of tkinter
