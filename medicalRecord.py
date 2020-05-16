@@ -14,6 +14,9 @@ def sel():
 def selDia():
     myDiabetes = "You selected the option " + str(diab.get())
 
+# Clearing entry when focused
+def clear_entry(event, entry):
+    entry.delete(0, END)
 
 ####################################################
 
@@ -35,11 +38,15 @@ frm_top.pack(fill=BOTH, expand=TRUE)
 ent_firstName = Entry(frm_top, width=30)
 # Positioning the firstName textbox on the window
 ent_firstName.grid(column=0, row=1)
+ent_firstName.insert(0, "First name")
+ent_firstName.bind("<Button-1>", lambda event: clear_entry(event, ent_firstName))
 
 # adding a last name textbox with a limited width
 ent_lastName = Entry(frm_top, width=30)
 # Positioning the lastName textbox on the window
 ent_lastName.grid(column=1, row=1)
+ent_lastName.insert(0, "Last name")
+ent_lastName.bind("<Button-1>", lambda event: clear_entry(event, ent_lastName))
 
 # Adding a Label Frame to contain the Gender radio buttons
 lblfrm_labelframe = LabelFrame(frm_top,
@@ -67,6 +74,8 @@ rdo_female.pack(side=LEFT)
 # Adding a Spin Box to enter the Age
 sbox_age = Spinbox(frm_top, from_=0, to=150)
 sbox_age.grid(column=1, row=2)
+# sbox_age.insert(1, "Age")
+# sbox_age.bind("<Button-1>", lambda event: clear_entry(event, sbox_age))
 
 # Adding a combo box to list the cities
 combo_city = Combobox(frm_top)
