@@ -32,8 +32,11 @@ def clicked():
 
 
 # Adding a button on the window
-btn = Button(window, text="Click Me", command=clicked)
+btn = Button(window,
+             text="Click Me",
+             command=clicked)
 # Positioning the Button on the window
 btn.grid(column=2, row=0)
 
+# running the application
 window.mainloop()
