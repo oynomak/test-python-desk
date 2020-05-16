@@ -11,7 +11,6 @@ from tkinter.ttk import Combobox
 def sel():
     myGender = "You selected the option " + str(var.get())
 
-
 def selDia():
     myDiabetes = "You selected the option " + str(diab.get())
 
@@ -27,142 +26,142 @@ window.geometry('1000x600')
 
 ####################################################
 # Adding a top frame to hold my data entry form
-topFrame = Frame(master=window,
+frm_top = Frame(master=window,
                  bg="lightblue",
                  height="200")
-topFrame.pack(fill=BOTH, expand=TRUE)
+frm_top.pack(fill=BOTH, expand=TRUE)
 
 # adding a first name textbox with a limited width
-firstName = Entry(topFrame, width=30)
+ent_firstName = Entry(frm_top, width=30)
 # Positioning the firstName textbox on the window
-firstName.grid(column=0, row=1)
+ent_firstName.grid(column=0, row=1)
 
 # adding a last name textbox with a limited width
-lastName = Entry(topFrame, width=30)
+ent_lastName = Entry(frm_top, width=30)
 # Positioning the lastName textbox on the window
-lastName.grid(column=1, row=1)
+ent_lastName.grid(column=1, row=1)
 
 # Adding a Label Frame to contain the Gender radio buttons
-labelframe = LabelFrame(topFrame,
-                        width=100,
-                        bg="lightblue")
-labelframe.grid(column=0, row=2)
+lblfrm_labelframe = LabelFrame(frm_top,
+                               width=100,
+                               bg="lightblue")
+lblfrm_labelframe.grid(column=0, row=2)
 # Adding radio button for sex
 var = StringVar()
-maleRadio = Radiobutton(labelframe,
-                        text="Male",
-                        variable=var,
-                        value="Male",
-                        command=sel(),
-                        bg="lightblue")
-maleRadio.pack(side=LEFT)
+rdo_male = Radiobutton(lblfrm_labelframe,
+                       text="Male",
+                       variable=var,
+                       value="Male",
+                       command=sel(),
+                       bg="lightblue")
+rdo_male.pack(side=LEFT)
 
-femaleRadio = Radiobutton(labelframe,
-                          text="Female",
-                          variable=var,
-                          value="Female",
-                          command=sel(),
-                          bg="lightblue")
-femaleRadio.pack(side=LEFT)
+rdo_female = Radiobutton(lblfrm_labelframe,
+                         text="Female",
+                         variable=var,
+                         value="Female",
+                         command=sel(),
+                         bg="lightblue")
+rdo_female.pack(side=LEFT)
 
 # Adding a Spin Box to enter the Age
-w = Spinbox(topFrame, from_=0, to=150)
-w.grid(column=1, row=2)
+sbox_age = Spinbox(frm_top, from_=0, to=150)
+sbox_age.grid(column=1, row=2)
 
 # Adding a combo box to list the cities
-cityList = Combobox(topFrame)
-cityList['values'] = ("- City -",
+combo_city = Combobox(frm_top)
+combo_city['values'] = ("- City -",
                       "Bujumbura",
                       "Abidjan",
                       "Kigali",
                       "Brazzaville",
                       "Dakar")
-cityList.current(0)  # set the selected item
-cityList.grid(column=0, row=3)
+combo_city.current(0)  # set the selected item
+combo_city.grid(column=0, row=3)
 
 # Adding a combo box to list the countries
-countryList = Combobox(topFrame)
-countryList['values'] = ("- Country -",
+combo_country = Combobox(frm_top)
+combo_country['values'] = ("- Country -",
                          "Burundi",
                          "Cote d'Ivoire",
                          "Rwanda",
                          "Congo",
                          "Senegal")
-countryList.current(0)  # set the selected item
-countryList.grid(column=1, row=3)
+combo_country.current(0)  # set the selected item
+combo_country.grid(column=1, row=3)
 
 # Adding a label to display "Living with Diabetes"
-diabetesLbl = Label(topFrame,
-                    text="Living with Diabetes?",
-                    bg="lightblue")
-diabetesLbl.grid(column=0, row=4)
+lbl_diabetes = Label(frm_top,
+                     text="Living with Diabetes?",
+                     bg="lightblue")
+lbl_diabetes.grid(column=0, row=4)
 
 # Adding a Label Frame to contain the diabetes radio buttons
-labelframe2 = LabelFrame(topFrame,
+lblfrm2 = LabelFrame(frm_top,
                          width=100,
                          bg="lightblue")
-labelframe2.grid(column=1, row=4)
+lblfrm2.grid(column=1, row=4)
 
 # Adding radio button for sex
 diab = StringVar()
 # YES radio button definition
-yesRadio = Radiobutton(labelframe2,
-                       text="Yes",
-                       variable=diab,
-                       value="Yes",
-                       command=sel(),
-                       bg="lightblue")
-yesRadio.pack(side=LEFT)
-# NO radio button definition
-noRadio = Radiobutton(labelframe2,
-                      text="No",
+rdo_yes = Radiobutton(lblfrm2,
+                      text="Yes",
                       variable=diab,
-                      value="No",
+                      value="Yes",
                       command=sel(),
                       bg="lightblue")
-noRadio.pack(side=LEFT)
+rdo_yes.pack(side=LEFT)
+# NO radio button definition
+rdo_no = Radiobutton(lblfrm2,
+                     text="No",
+                     variable=diab,
+                     value="No",
+                     command=sel(),
+                     bg="lightblue")
+rdo_no.pack(side=LEFT)
 # UNKNOWN radio button definition
-unknownRadio = Radiobutton(labelframe2,
-                           text="Unknown",
-                           variable=diab,
-                           value="Unknown",
-                           command=sel(),
-                           bg="lightblue")
-unknownRadio.pack(side=LEFT)
+rdo_unknown = Radiobutton(lblfrm2,
+                          text="Unknown",
+                          variable=diab,
+                          value="Unknown",
+                          command=sel(),
+                          bg="lightblue")
+rdo_unknown.pack(side=LEFT)
 
 # Adding a button to submit form data
-saveBtn = Button(topFrame,
-                 text="SAVE",
-                 fg="black",
-                 bg="orange")
-saveBtn.grid(columnspan=2)
+btn_save = Button(frm_top,
+                  text="SAVE",
+                  fg="black",
+                  bg="orange")
+btn_save.grid(columnspan=2)
 
 ####################################################
 
 # Adding a bottom frame to hold my list of medical records
-bottomFrame = Frame(master=window,
+frm_bottom = Frame(master=window,
                     bg="lightblue",
                     height="400")
-bottomFrame.pack(fill=BOTH, expand=TRUE)
+frm_bottom.pack(fill=BOTH, expand=TRUE)
 
 # Adding a label to add title to the list
-listTitle = Label(master=bottomFrame,
+lbl_title = Label(master=frm_bottom,
                   text="List of medical records",
                   bg="lightblue")
-listTitle.grid(column=0, row=0)
+lbl_title.grid(column=0, row=0)
 
 # Adding a label frame to contain the scrollbar
-labelframe2 = LabelFrame(bottomFrame,
-                         width=100,
-                         bg="lightblue")
-labelframe2.grid(column=0, row=1)
+lblfrm2 = LabelFrame(frm_bottom,
+                     width=100,
+                     bg="lightblue")
+lblfrm2.grid(column=0, row=1)
 
 # Adding a scrollbar as we may need to see the full list of items
-scrollbar = Scrollbar(labelframe2)
+scrollbar = Scrollbar(lblfrm2)
 scrollbar.pack(side=RIGHT, fill=BOTH)
 
 # Adding a list to populate the frame
-myList = Listbox(labelframe2,
+myList = Listbox(lblfrm2,
                  yscrollcommand=scrollbar.set)
 
 for line in range(100):
