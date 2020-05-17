@@ -7,6 +7,18 @@ from tkinter.ttk import Combobox
 
 ####################################################
 
+#
+def on_entry_click(event, entry):
+    """function that gets called whenever entry is clicked"""
+    if entry.get() == 'First name' or entry.get() == 'Last name':
+       entry.delete(0, "end") # delete all the text in the entry
+       entry.insert(0, '') #Insert blank for user input
+       entry.config(fg = 'black')
+
+def on_focusout(event, entry):
+    if entry.get() == '':
+        entry.insert(0, 'Patient name')
+        entry.config(fg='grey')
 
 def sel():
     myGender = "You selected the option " + str(var.get())
@@ -37,6 +49,7 @@ frm_top.pack(fill=BOTH, expand=TRUE)
 # adding a first name textbox with a limited width
 ent_firstName = Entry(frm_top, width=30)
 # Positioning the firstName textbox on the window
+ent_firstName.pack(ipady=20)
 ent_firstName.grid(column=0, row=1)
 ent_firstName.insert(0, "First name")
 ent_firstName.bind("<Button-1>", lambda event: clear_entry(event, ent_firstName))
@@ -140,7 +153,9 @@ rdo_unknown.pack(side=LEFT)
 
 # Adding a button to submit form data
 btn_save = Button(frm_top,
+                  width=60,
                   text="SAVE",
+                  font=('arial', 14, 'bold'),
                   fg="black",
                   bg="orange")
 btn_save.grid(columnspan=2)
@@ -155,15 +170,42 @@ frm_bottom.pack(fill=BOTH, expand=TRUE)
 
 # Adding a label to add title to the list
 lbl_title = Label(master=frm_bottom,
+                  font=('arial', 18, 'bold'),
                   text="List of medical records",
                   bg="lightblue")
 lbl_title.grid(column=0, row=0)
+
+# Find record is displayed here
+lblfrm_search = LabelFrame(frm_bottom,
+                           width=100,
+                           bg="lightblue")
+lblfrm_search.grid(column=0, row=1)
+
+# Adding a label for search
+lbl_search = Label(lblfrm_search,
+                   text="Find record   ",
+                   bg="lightblue")
+lbl_search.pack(side=LEFT)
+
+# Adding a text field to search
+ent_search = Entry(lblfrm_search,
+                   width=20)
+ent_search.pack(side=LEFT)
+
+# Only minors is displayed here
+chk_minor_state = BooleanVar()
+# chk_minor_state.set(True) #set check state
+chk_minors = Checkbutton(frm_bottom,
+                         bg="lightblue",
+                         text='Only minors',
+                         var=chk_minor_state)
+chk_minors.grid(column=1, row=1)
 
 # Adding a label frame to contain the scrollbar
 lblfrm2 = LabelFrame(frm_bottom,
                      width=100,
                      bg="lightblue")
-lblfrm2.grid(column=0, row=1)
+lblfrm2.grid(column=0, row=2)
 
 # Adding a scrollbar as we may need to see the full list of items
 scrollbar = Scrollbar(lblfrm2)
