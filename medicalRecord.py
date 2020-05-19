@@ -108,7 +108,9 @@ lblfrm_form = LabelFrame(frm_top,
 lblfrm_form.pack(fill=Y, side=LEFT)
 
 # adding a first name textbox with a limited width
-ent_firstName = Entry(lblfrm_form, width=30)
+ent_firstName = Entry(lblfrm_form,
+                      font=('arial', 12, 'normal'),
+                      width=30)
 # Positioning the firstName textbox on the window
 # ent_firstName.pack(ipady=20)
 ent_firstName.grid(column=0, row=1)
@@ -116,7 +118,9 @@ ent_firstName.insert(0, "First name")
 ent_firstName.bind("<Button-1>", lambda event: clear_entry(event, ent_firstName))
 
 # adding a last name textbox with a limited width
-ent_lastName = Entry(lblfrm_form, width=30)
+ent_lastName = Entry(lblfrm_form,
+                     font=('arial', 12, 'normal'),
+                     width=30)
 # Positioning the lastName textbox on the window
 ent_lastName.grid(column=1, row=1)
 ent_lastName.insert(0, "Last name")
@@ -131,6 +135,7 @@ lblfrm_labelframe.grid(column=0, row=2)
 var = StringVar()
 rdo_male = Radiobutton(lblfrm_labelframe,
                        text="Male",
+                       font=('arial', 12, 'normal'),
                        variable=var,
                        value="Male",
                        command=sel(),
@@ -139,6 +144,7 @@ rdo_male.pack(side=LEFT)
 
 rdo_female = Radiobutton(lblfrm_labelframe,
                          text="Female",
+                         font=('arial', 12, 'normal'),
                          variable=var,
                          value="Female",
                          command=sel(),
@@ -146,13 +152,17 @@ rdo_female = Radiobutton(lblfrm_labelframe,
 rdo_female.pack(side=LEFT)
 
 # Adding a Spin Box to enter the Age
-sbox_age = Spinbox(lblfrm_form, from_=0, to=150)
+sbox_age = Spinbox(lblfrm_form,
+                   font=('arial', 12, 'normal'),
+                   from_=0,
+                   to=150)
 sbox_age.grid(column=1, row=2)
 # sbox_age.insert(1, "Age")
 # sbox_age.bind("<Button-1>", lambda event: clear_entry(event, sbox_age))
 
 # Adding a combo box to list the cities
-combo_city = Combobox(lblfrm_form)
+combo_city = Combobox(lblfrm_form,
+                      font=('arial', 12, 'normal'))
 combo_city['values'] = ("- City -",
                         "Bujumbura",
                         "Abidjan",
@@ -163,7 +173,8 @@ combo_city.current(0)  # set the selected item
 combo_city.grid(column=0, row=3)
 
 # Adding a combo box to list the countries
-combo_country = Combobox(lblfrm_form)
+combo_country = Combobox(lblfrm_form,
+                         font=('arial', 12, 'normal'))
 combo_country['values'] = ("- Country -",
                            "Burundi",
                            "Cote d'Ivoire",
@@ -176,6 +187,7 @@ combo_country.grid(column=1, row=3)
 # Adding a label to display "Living with Diabetes"
 lbl_diabetes = Label(lblfrm_form,
                      text="Living with Diabetes?",
+                     font=('arial', 12, 'normal'),
                      bg="lightblue")
 lbl_diabetes.grid(column=0, row=4)
 
@@ -190,6 +202,7 @@ diab = StringVar()
 # YES radio button definition
 rdo_yes = Radiobutton(lblfrm2,
                       text="Yes",
+                      font=('arial', 12, 'normal'),
                       variable=diab,
                       value="Yes",
                       command=sel(),
@@ -198,6 +211,7 @@ rdo_yes.pack(side=LEFT)
 # NO radio button definition
 rdo_no = Radiobutton(lblfrm2,
                      text="No",
+                     font=('arial', 12, 'normal'),
                      variable=diab,
                      value="No",
                      command=sel(),
@@ -206,6 +220,7 @@ rdo_no.pack(side=LEFT)
 # UNKNOWN radio button definition
 rdo_unknown = Radiobutton(lblfrm2,
                           text="Unknown",
+                          font=('arial', 12, 'normal'),
                           variable=diab,
                           value="Unknown",
                           command=sel(),
@@ -245,11 +260,13 @@ lblfrm_search.grid(column=0, row=1)
 # Adding a label for search
 lbl_search = Label(lblfrm_search,
                    text="Find record   ",
+                   font=('arial', 14, 'normal'),
                    bg="lightblue")
 lbl_search.pack(side=LEFT)
 
 # Adding a text field to search
 ent_search = Entry(lblfrm_search,
+                   font=('arial', 14, 'normal'),
                    width=20)
 ent_search.pack(side=LEFT)
 
@@ -259,6 +276,7 @@ chk_minor_state = BooleanVar()
 chk_minors = Checkbutton(frm_bottom,
                          bg="lightblue",
                          text='Only minors',
+                         font=('arial', 14, 'normal'),
                          var=chk_minor_state)
 chk_minors.grid(column=1, row=1)
 
