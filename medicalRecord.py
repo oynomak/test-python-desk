@@ -1,9 +1,26 @@
 # @author Kamonyo
 
+import pymongo
 from tkinter import *
 # handles radio buttons click
 from tkinter.ttk import Combobox
 
+# #################### DB Access #############################
+
+uri = "mongodb://127.0.0.1:27017"
+client = pymongo.MongoClient(uri)
+database = client['medicalrecord']
+collection = database['record']
+
+# checking if the database was successfully created
+dblist = client.list_database_names()
+if "medicalrecord" in dblist:
+  print("**** The database 'medicalrecord' exists.")
+
+# checking if the collection was successfully created
+collist = database.list_collection_names()
+if "record" in collist:
+  print("**** The collection 'record' exists.")
 
 # #################### CLASSES ###############################
 
@@ -30,20 +47,34 @@ class MedicalRecord:
 
 # Instantiating 3 objects of medical record
 record1 = MedicalRecord("Kamonyo", "Mugabo", "Male", 42, "Kigali", "Rwanda", "No")
+count1 = record1.count
 record2 = MedicalRecord("Richard", "Herve", "Female", 42, "Abidjan", "Cote d'Ivoire", "Yes")
+count2 = record1.count
 record3 = MedicalRecord("Iradukunda", "Solal", "Male", 17, "Kigali", "Rwanda", "No")
+count3 = record1.count
 
 # Creating and initialising a dictionary of objects
-database = {
-    record1.count: record1,
-    record2.count: record2,
-    record3.count: record3
-}
+mydict = {}
+# inserting the three objects that were created
+mydict.update({count1: record1})
+mydict.update({count2: record2})
+mydict.update({count3: record3})
 
 # iterating through the database...
-for key in database:
-    print(key, " -> ", database[key].description())
+for key in mydict:
+    print(key, " -> ", mydict[key].description())
 
+# Inserting into DB:
+collection.insert_one(record1.__dict__)
+collection.insert_one(record2.__dict__)
+collection.insert_one(record3.__dict__)
+
+# Fetching through db:
+alldata = collection.find()
+
+# displaying all the data in collection 'record'
+for record in alldata:
+    print(record['first_name'])
 
 # #################### METHODS ###############################
 
