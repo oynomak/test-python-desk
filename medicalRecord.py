@@ -62,11 +62,11 @@ def on_focusout(event, entry):
 
 
 def sel():
-    myGender = "You selected the option " + str(var.get())
+    my_gender = "You selected the option " + str(var.get())
 
 
-def selDia():
-    myDiabetes = "You selected the option " + str(diab.get())
+def sel_dia():
+    my_diabetes = "You selected the option " + str(diab.get())
 
 
 # Clearing entry when focused
