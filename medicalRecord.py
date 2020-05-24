@@ -28,6 +28,7 @@ if "record" in collist:
 class MedicalRecord:
     """ contains all information on the medical record """
     count = 0
+    _id = count
 
     def __init__(self, first_name, last_name, sex, age, city, country, has_diabetes):
         self.first_name = first_name
@@ -38,10 +39,12 @@ class MedicalRecord:
         self.country = country
         self.has_diabetes = has_diabetes
         MedicalRecord.count += 1
+        # auto-incrementation of the _id
+        self._id = MedicalRecord.count
 
     def description(self):
-        return "{} {} ({}), {} - {}({})".format(self.first_name, self.last_name, self.sex, self.age, self.city,
-                                                self.country)
+        return "{}. {} {} ({}), {} - {}({})".format(self._id, self.first_name, self.last_name, self.sex, self.age,
+                                                    self.city, self.country)
 
 
 # ################### DICTIONARY #############################
@@ -61,21 +64,17 @@ mydict.update({count1: record1})
 mydict.update({count2: record2})
 mydict.update({count3: record3})
 
-# iterating through the database...
-for key in mydict:
-    print(key, " -> ", mydict[key].description())
-
-# Inserting into DB:
+# inserting the dictionary into DB straight
 collection.insert_one(record1.__dict__)
 collection.insert_one(record2.__dict__)
 collection.insert_one(record3.__dict__)
 
-# Fetching through db:
-alldata = collection.find()
+# iterating through the database...
+for key in mydict:
+    print(key, " -> ", mydict[key].description())
 
-# displaying all the data in collection 'record'
-for record in alldata:
-    print(record['first_name'])
+# Fetching into DB:
+alldata = collection.find()
 
 
 # #################### METHODS ###############################
@@ -109,7 +108,7 @@ def clear_entry(event, entry):
 
 # Saving form data
 def save_record():
-    confirmation = messagebox.askyesno("Confirmation", "Do you want to save the record?")
+    confirmation = messagebox.askyesno("Confirmation", "Do you want to save the record?", icon="question")
     if confirmation:
         first_name = ent_firstName.get()
         last_name = ent_lastName.get()
@@ -118,17 +117,30 @@ def save_record():
         city = combo_city.get()
         country = combo_country.get()
         has_diabetes = diab.get()
-        my_record = first_name + " " + last_name + " (" + sex + "), " + age + " - " + city + " (" + country + ")"
 
-        # Here we save to the DB...
-        messagebox.showinfo("Medical Record", my_record)
+        # ######## Here we save to the DB...
+        medical_record = MedicalRecord(first_name, last_name, sex, age, city, country, has_diabetes)
+        #
+        # ########
+
+        messagebox.showinfo("Medical Record", medical_record.description())
+        collection.insert_one(medical_record.__dict__)
+        # myList.insert(END, medical_record.description())
+        messagebox.showinfo("Success", "Record saved successfully!", icon="info")
 
     elif not confirmation:
-        messagebox.showinfo("Success", "Record saved successfully!")
+        messagebox.showerror("Refused", "Record not saved!", icon="error")
+
+    elif confirmation is None:
+        messagebox.showwarning("Cancellation", "Record cancelled!", icon="warning")
 
 
-def call_about():
-    messagebox.showinfo("About", "About is clicked!")
+# exiting the app
+def call_exit():
+    """ Function called to exit the application """
+    window.deiconify()
+    window.destroy()
+    window.quit()
 
 
 ####################################################
@@ -144,9 +156,22 @@ window.geometry('1000x600')
 
 bar_menu = Menu(window, bg="orange")
 
+menu_file = Menu(bar_menu, tearoff=0)
+bar_menu.add_cascade(label="File", menu=menu_file)
+menu_file.add_command(label="Exit", command=call_exit)
+
+menu_edit = Menu(bar_menu, tearoff=1)
+bar_menu.add_cascade(label="Edit", menu=menu_edit)
+menu_edit.add_command(label="Copy", command=call_exit)
+menu_edit.add_command(label="Paste", command=call_exit)
+
+menu_view = Menu(bar_menu, tearoff=0)
+bar_menu.add_cascade(label="View", menu=menu_view)
+menu_view.add_command(label="View", command=call_exit)
+
 menu_about = Menu(bar_menu, tearoff=0)
 bar_menu.add_cascade(label="About", menu=menu_about)
-menu_about.add_command(label="About", command=call_about)
+menu_about.add_command(label="About", command=call_exit)
 
 window.config(menu=bar_menu)
 
@@ -350,7 +375,7 @@ chk_minors.grid(column=1, row=1)
 
 # Adding a label frame to contain the scrollbar
 lblfrm2 = LabelFrame(frm_bottom,
-                     width=100,
+                     width=500,
                      bg="lightblue")
 lblfrm2.grid(column=0, row=2)
 
@@ -358,12 +383,18 @@ lblfrm2.grid(column=0, row=2)
 scrollbar = Scrollbar(lblfrm2)
 scrollbar.pack(side=RIGHT, fill=BOTH)
 
+
 # Adding a list to populate the frame
 myList = Listbox(lblfrm2,
+                 width=150,
                  yscrollcommand=scrollbar.set)
 
-for line in range(100):
-    myList.insert(END, "Patient Names " + str(line + 1))
+# Fetching through db:
+alldata = collection.find()
+
+# displaying all the data in collection 'record'
+for record in alldata:
+    myList.insert(END, record)
 
 myList.pack(side=LEFT, fill=BOTH)
 scrollbar.config(command=myList.yview)
@@ -372,3 +403,4 @@ scrollbar.config(command=myList.yview)
 
 # running the application
 window.mainloop()
+
