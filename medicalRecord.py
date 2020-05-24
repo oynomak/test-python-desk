@@ -2,7 +2,7 @@
 
 import pymongo
 from tkinter import *
-# handles radio buttons click
+from tkinter import messagebox
 from tkinter.ttk import Combobox
 
 # #################### DB Access #############################
@@ -105,6 +105,29 @@ def clear_entry(event, entry):
     entry.delete(0, END)
 
 
+# Saving form data
+def save_record():
+    confirmation = messagebox.askyesno("Confirmation", "Do you want to save the record?")
+    if confirmation is 'true':
+        messagebox.showinfo("Alert", "I am here")
+        first_name = ent_firstName.get()
+        last_name = ent_lastName.get()
+        sex = ""
+        age = sbox_age.get()
+        city = combo_city.get()
+        country = combo_country.get()
+        has_diabetes = ""
+        my_record = first_name + " " + last_name + " " + age + " - " + city + " (" + country + ")"
+
+        messagebox.showinfo("Medical Record", my_record)
+
+    else:
+        messagebox.showinfo("Cancelled", "Record is cancelled!")
+
+
+def call_about():
+    messagebox.showinfo("About", "About is clicked!")
+
 ####################################################
 
 # instantiation of tkinter
@@ -113,6 +136,15 @@ window = Tk()
 window.title("Medical Record")
 # size of the window
 window.geometry('1000x600')
+
+###################### MENU ##############################
+bar_menu = Menu(window, bg="orange")
+
+menu_about = Menu(bar_menu, tearoff=0)
+bar_menu.add_cascade(label="About", menu=menu_about)
+menu_about.add_command(label="About", command=call_about)
+
+window.config(menu=bar_menu)
 
 ####################################################
 # Adding a top frame to hold my data entry form
@@ -260,6 +292,7 @@ rdo_unknown.pack(side=LEFT)
 
 # Adding a button to submit form data
 btn_save = Button(lblfrm_form,
+                  command=save_record,
                   width=60,
                   text="SAVE",
                   font=('arial', 14, 'bold'),
