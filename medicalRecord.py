@@ -15,12 +15,13 @@ collection = database['record']
 # checking if the database was successfully created
 dblist = client.list_database_names()
 if "medicalrecord" in dblist:
-  print("**** The database 'medicalrecord' exists.")
+    print("**** The database 'medicalrecord' exists.")
 
 # checking if the collection was successfully created
 collist = database.list_collection_names()
 if "record" in collist:
-  print("**** The collection 'record' exists.")
+    print("**** The collection 'record' exists.")
+
 
 # #################### CLASSES ###############################
 
@@ -76,6 +77,7 @@ alldata = collection.find()
 for record in alldata:
     print(record['first_name'])
 
+
 # #################### METHODS ###############################
 
 def on_entry_click(event, entry):
@@ -108,25 +110,26 @@ def clear_entry(event, entry):
 # Saving form data
 def save_record():
     confirmation = messagebox.askyesno("Confirmation", "Do you want to save the record?")
-    if confirmation is 'true':
-        messagebox.showinfo("Alert", "I am here")
+    if confirmation:
         first_name = ent_firstName.get()
         last_name = ent_lastName.get()
-        sex = ""
+        sex = var.get()
         age = sbox_age.get()
         city = combo_city.get()
         country = combo_country.get()
-        has_diabetes = ""
-        my_record = first_name + " " + last_name + " " + age + " - " + city + " (" + country + ")"
+        has_diabetes = diab.get()
+        my_record = first_name + " " + last_name + " (" + sex + "), " + age + " - " + city + " (" + country + ")"
 
+        # Here we save to the DB...
         messagebox.showinfo("Medical Record", my_record)
 
-    else:
-        messagebox.showinfo("Cancelled", "Record is cancelled!")
+    elif not confirmation:
+        messagebox.showinfo("Success", "Record saved successfully!")
 
 
 def call_about():
     messagebox.showinfo("About", "About is clicked!")
+
 
 ####################################################
 
@@ -137,7 +140,8 @@ window.title("Medical Record")
 # size of the window
 window.geometry('1000x600')
 
-###################### MENU ##############################
+# ##################### MENU ###########################
+
 bar_menu = Menu(window, bg="orange")
 
 menu_about = Menu(bar_menu, tearoff=0)
