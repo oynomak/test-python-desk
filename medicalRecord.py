@@ -31,6 +31,11 @@ class MedicalRecord:
     _id = count
 
     def __init__(self, first_name, last_name, sex, age, city, country, has_diabetes):
+        """ constructor that instantiate the class """
+
+        MedicalRecord.count += 1
+        # auto-incrementation of the _id
+        self._id = MedicalRecord.count
         self.first_name = first_name
         self.last_name = last_name
         self.sex = sex
@@ -38,9 +43,6 @@ class MedicalRecord:
         self.city = city
         self.country = country
         self.has_diabetes = has_diabetes
-        MedicalRecord.count += 1
-        # auto-incrementation of the _id
-        self._id = MedicalRecord.count
 
     def description(self):
         return "{}. {} {} ({}), {} - {}({})".format(self._id, self.first_name, self.last_name, self.sex, self.age,
@@ -120,12 +122,10 @@ def save_record():
 
         # ######## Here we save to the DB...
         medical_record = MedicalRecord(first_name, last_name, sex, age, city, country, has_diabetes)
-        #
+        collection.insert_one(medical_record.__dict__)
         # ########
 
-        messagebox.showinfo("Medical Record", medical_record.description())
-        collection.insert_one(medical_record.__dict__)
-        # myList.insert(END, medical_record.description())
+        myList.insert(END, medical_record.__dict__)
         messagebox.showinfo("Success", "Record saved successfully!", icon="info")
 
     elif not confirmation:
@@ -138,6 +138,7 @@ def save_record():
 # exiting the app
 def call_exit():
     """ Function called to exit the application """
+    collection.delete_many({})
     window.deiconify()
     window.destroy()
     window.quit()
@@ -377,7 +378,7 @@ chk_minors.grid(column=1, row=1)
 lblfrm2 = LabelFrame(frm_bottom,
                      width=500,
                      bg="lightblue")
-lblfrm2.grid(column=0, row=2)
+lblfrm2.grid(columnspan=2, row=2)
 
 # Adding a scrollbar as we may need to see the full list of items
 scrollbar = Scrollbar(lblfrm2)
@@ -386,7 +387,7 @@ scrollbar.pack(side=RIGHT, fill=BOTH)
 
 # Adding a list to populate the frame
 myList = Listbox(lblfrm2,
-                 width=150,
+                 width=120,
                  yscrollcommand=scrollbar.set)
 
 # Fetching through db:
